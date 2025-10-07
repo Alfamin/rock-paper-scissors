@@ -5,6 +5,8 @@ let randomInt = ''
 let computerMove = ""
 let humanScore = 0
 let computerScore = 0
+const div = document.querySelector('div')
+const pElement = document.querySelector('p')
 function random () {
   randomInt = Math.random()
   return randomInt
@@ -25,75 +27,74 @@ function getComputerChoice () {
   return computerMove
 }
 
-console.log(randomInt);
-console.log(getComputerChoice());
 
 
 let humanChoice = ""
+const buttons = document.querySelectorAll('button')
 
-function getHumanChoice () {
-  humanChoice = prompt("what's your move?", 'rock').toLowerCase()
-  return humanChoice
-}
-
-
-
-
-
-function playRound (humanChoice, computerMove) {
-  if (humanChoice == computerMove) {
-    console.log('its a tie!')
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
-  } else if (humanChoice == 'rock' && computerMove == 'paper') {
-    console.log('you lose! paper beats rock');
-    computerScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
+buttons.forEach(button =>{
+  button.addEventListener('click', () =>{
+    humanChoice = button.textContent
+    console.log(humanChoice);
     
-  } else if (humanChoice == 'rock' && computerMove == 'scissors') {
-    console.log('you win! rock beats scissors');
-    humanScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
-  } else if (humanChoice == 'paper' && computerMove == 'scissors') {
-    console.log('you lose! scissors beats paper');
-    computerScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
-  } else if (humanChoice == 'paper' && computerMove == 'rock') {
-    console.log('you win! paper beats rock');
-    humanScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
-  } else if (humanChoice == 'scissors' && computerMove == 'paper') {
-    console.log('you win! scissors beats paper');
-    humanScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
-  } else if (humanChoice == 'scissors' && computerMove == 'rock') {
-    console.log('you lose! rock beats scissors');
-    computerScore++
-    console.log(`Computer Score: ${computerScore} -- Human Score: ${humanScore}`)
+  })
+})
+  
+
+
+
+
+
+
+
+function playRound(humanChoice, computerMove) {
+  if (humanChoice === computerMove) {
+    pElement.textContent = "It's a tie!";
+  } else if (humanChoice === 'rock' && computerMove === 'paper') {
+    pElement.textContent = "You lose! Paper beats rock.";
+    computerScore++;
+  } else if (humanChoice === 'rock' && computerMove === 'scissors') {
+    pElement.textContent = "You win! Rock beats scissors.";
+    humanScore++;
+  } else if (humanChoice === 'paper' && computerMove === 'scissors') {
+    pElement.textContent = "You lose! Scissors beats paper.";
+    computerScore++;
+  } else if (humanChoice === 'paper' && computerMove === 'rock') {
+    pElement.textContent = "You win! Paper beats rock.";
+    humanScore++;
+  } else if (humanChoice === 'scissors' && computerMove === 'paper') {
+    pElement.textContent = "You win! Scissors beats paper.";
+    humanScore++;
+  } else if (humanChoice === 'scissors' && computerMove === 'rock') {
+    pElement.textContent = "You lose! Rock beats scissors.";
+    computerScore++;
   }
 
 
+  div.textContent = `Computer Score: ${computerScore} — Human Score: ${humanScore}`;
 }
 
 
 
 
 function playGame() {
+getComputerChoice()
+playRound(humanChoice, computerMove)
 
-for (let i = 0; i < 5; i++) {
-  getComputerChoice()
-  getHumanChoice()
-  playRound(humanChoice, computerMove)
-}
-
-if (computerScore > humanScore) {
-  console.log('YOU LOST!');
-  
-} else if (computerScore < humanScore) {
-  console.log('YOU WON!');
-  
-} else {console.log('ITS A TIE!');
-}
+if (humanScore === 5){
+  pElement.textContent = `You won! human: 5 -- computer: ${computerScore}`
+  humanScore = 0
+  computerScore = 0
+} else if (computerScore === 5) {
+  pElement.textContent = `You lost! human: ${humanScore} -- computer: 5`
+  humanScore = 0
+  computerScore = 0
 }
 
 
-playGame()
+}
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    playGame()
+  })
+})
